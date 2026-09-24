@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="data-storage-website-ap5pw.Application/data-storage-website-ap5pw.Application.csproj" />
+  <Project Path="data-storage-website-ap5pw.Domain/data-storage-website-ap5pw.Domain.csproj" />
+  <Project Path="data-storage-website-ap5pw.Infrastructure/data-storage-website-ap5pw.Infrastructure.csproj" />
   <Project Path="data-storage-website-ap5pw/data-storage-website-ap5pw.csproj" />
 </Solution>
