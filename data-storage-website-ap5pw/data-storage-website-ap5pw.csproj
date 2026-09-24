@@ -7,4 +7,10 @@
     <RootNamespace>data_storage_website_ap5pw</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\data-storage-website-ap5pw.Application\data-storage-website-ap5pw.Application.csproj" />
+    <ProjectReference Include="..\data-storage-website-ap5pw.Domain\data-storage-website-ap5pw.Domain.csproj" />
+    <ProjectReference Include="..\data-storage-website-ap5pw.Infrastructure\data-storage-website-ap5pw.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
