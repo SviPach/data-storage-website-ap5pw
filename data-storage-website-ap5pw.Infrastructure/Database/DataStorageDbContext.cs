@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using data_storage_website_ap5pw.Domain.Entities;
 
 namespace data_storage_website_ap5pw.Infrastructure.Database
 {
-    internal class DataStorageDbContext
+    public class DataStorageDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
+        public DbSet<FileEntity> Files { get; set; }
+        public DataStorageDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        {
+        }
     }
 }

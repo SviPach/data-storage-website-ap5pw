@@ -12,6 +12,6 @@ namespace data_storage_website_ap5pw.Domain.Entities
         [Required]
         public required string Email { get; set; }
 
-        public ICollection<File> Files { get; set; }
+        public ICollection<FileEntity> Files { get; set; }
     }
 }
