@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\data-storage-website-ap5pw.Application\data-storage-website-ap5pw.Application.csproj" />
     <ProjectReference Include="..\data-storage-website-ap5pw.Domain\data-storage-website-ap5pw.Domain.csproj" />
     <ProjectReference Include="..\data-storage-website-ap5pw.Infrastructure\data-storage-website-ap5pw.Infrastructure.csproj" />
