@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using data_storage_website_ap5pw.Infrastructure.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+string connectionString = builder.Configuration.GetConnectionString("MySQL");
+ServerVersion serverVersion = MySqlServerVersion.AutoDetect(connectionString);
+builder.Services.AddDbContext<DataStorageDbContext>(optionsBuilder => optionsBuilder.UseMySql(connectionString, serverVersion));
 
 var app = builder.Build();
 
