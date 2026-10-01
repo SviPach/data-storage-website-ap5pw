@@ -22,7 +22,6 @@ namespace data_storage_website_ap5pw.Domain.Entities
         public required int UserId { get; set; }
 
         [Required]
-        [ForeignKey(nameof(User))]
         public required User User { get; set; }
     }
 }
