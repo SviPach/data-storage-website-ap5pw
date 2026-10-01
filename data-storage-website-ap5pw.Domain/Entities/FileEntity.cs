@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace data_storage_website_ap5pw.Domain.Entities
 {
+    [Table(nameof(FileEntity))]
     public class FileEntity
     {
         public int Id { get; set; }

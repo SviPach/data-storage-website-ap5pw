@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace data_storage_website_ap5pw.Domain.Entities
 {
+    [Table(nameof(User))]
     public class User
     {
         public int Id { get; set; }
