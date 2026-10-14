@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using data_storage_website_ap5pw.Domain.Entities;
+using data_storage_website_ap5pw_Domain.Entities;
 
 namespace data_storage_website_ap5pw.Infrastructure.Database
 {

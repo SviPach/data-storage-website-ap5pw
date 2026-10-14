@@ -1,6 +1,4 @@
-﻿using UTB.Eshop.Domain.Entities;
-
-namespace data_storage_website_ap5pw_Domain.Entities;
+﻿namespace data_storage_website_ap5pw_Domain.Entities;
 
 public class FileEntity : Entity<int>
 {
