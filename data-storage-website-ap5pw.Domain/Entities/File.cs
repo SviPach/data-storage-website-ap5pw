@@ -1,12 +1,16 @@
-﻿namespace data_storage_website_ap5pw_Domain.Entities;
+﻿using data_storage_website_ap5pw.Domain.Entities;
 
-public class File : Entity<int>
+namespace data_storage_website_ap5pw.Domain.Entities
 {
-    public string FileName { get; set; } = string.Empty;
+    public class File : Entity<int>
+    {
+        public string FileName { get; set; } = string.Empty;
 
-    public long Size { get; set; }
+        public long Size { get; set; }
 
-    public string StoragePath { get; set; } = string.Empty;
+        public string StoragePath { get; set; } = string.Empty;
 
-    public int UserId { get; set; }
+        public int UserId { get; set; }
+    }
 }
+

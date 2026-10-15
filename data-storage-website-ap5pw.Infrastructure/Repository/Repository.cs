@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using data_storage_website_ap5pw_Domain.Entities.Interfaces;
-using data_storage_website_ap5pw_Domain.Entities.Interfaces.Repository;
+using data_storage_website_ap5pw.Domain.Entities.Interfaces;
+using data_storage_website_ap5pw.Domain.Entities.Interfaces.Repository;
 
-namespace data_storage_website_ap5pw_Domain.Infrastructure.Repository
+namespace data_storage_website_ap5pw.Domain.Infrastructure.Repository
 {
     public class Repository<T, TKey> : IRepository<T, TKey> where T : class, IEntity<TKey> where TKey : notnull
     {

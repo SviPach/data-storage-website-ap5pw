@@ -1,6 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using data_storage_website_ap5pw.Domain.Entities.Interfaces;
+using System.Linq.Expressions;
 
-namespace data_storage_website_ap5pw_Domain.Entities.Interfaces.Repository
+namespace data_storage_website_ap5pw.Domain.Entities.Interfaces.Repository
 {
     public interface IRepository<T, TKey> where T : IEntity<TKey> where TKey : notnull
     {

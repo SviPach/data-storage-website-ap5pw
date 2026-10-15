@@ -3,7 +3,7 @@
 namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductController : Controller
+    public class FileController : Controller
     {
         // GET: /<controller>/
         public IActionResult Select()

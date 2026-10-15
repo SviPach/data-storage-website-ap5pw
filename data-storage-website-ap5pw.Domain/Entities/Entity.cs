@@ -1,8 +1,10 @@
-﻿using data_storage_website_ap5pw_Domain.Entities.Interfaces;
+﻿using data_storage_website_ap5pw.Domain.Entities.Interfaces;
 
-namespace data_storage_website_ap5pw_Domain.Entities;
 
-public class Entity<TKey> : IEntity<TKey> where TKey : notnull
+namespace data_storage_website_ap5pw.Domain.Entities
 {
-    public TKey Id { get; set; }
+    public class Entity<TKey> : IEntity<TKey> where TKey : notnull
+    {
+        public TKey Id { get; set; }
+    }
 }

@@ -1,4 +1,4 @@
-﻿namespace data_storage_website_ap5pw_Domain.Entities.Interfaces;
+﻿namespace data_storage_website_ap5pw.Domain.Entities.Interfaces;
 
 public interface IEntity<TKey> where TKey : notnull
 {

@@ -1,17 +1,25 @@
 using Microsoft.EntityFrameworkCore;
-using data_storage_website_ap5pw.Entities.Interfaces.Repository;
+using data_storage_website_ap5pw.Domain.Entities.Interfaces.Repository;
 using data_storage_website_ap5pw.Infrastructure.Database;
 using data_storage_website_ap5pw.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
-@@ -15,6 + 17,9 @@
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+string connectionString = builder.Configuration.GetConnectionString("MySQL");
+ServerVersion serverVersion = MySqlServerVersion.AutoDetect(connectionString);
+if (serverVersion == null)
+{
+    //if the AutoDetect() does not work, you can specify the version manually
+    serverVersion = new MySqlServerVersion("8.0.43");
 }
 builder.Services.AddDbContext<DataStorageDbContext>(optionsBuilder => optionsBuilder.UseMySql(connectionString, serverVersion));
 
 //repository registration
 builder.Services.AddScoped<IFileRepository, FileRepository>();
-
+                
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
