@@ -6,7 +6,7 @@ namespace data_storage_website_ap5pw.Infrastructure.Database
     public class DataStorageDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<FileEntity> Files { get; set; }
+        public DbSet<data_storage_website_ap5pw_Domain.Entities.File> Files { get; set; }
         public DataStorageDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
         }

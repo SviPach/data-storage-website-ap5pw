@@ -8,6 +8,11 @@ builder.Services.AddControllersWithViews();
 
 string connectionString = builder.Configuration.GetConnectionString("MySQL");
 ServerVersion serverVersion = MySqlServerVersion.AutoDetect(connectionString);
+if (serverVersion == null)
+{
+    //if the AutoDetect() does not work, you can specify the version manually
+    serverVersion = new MySqlServerVersion("8.0.43");
+}
 builder.Services.AddDbContext<DataStorageDbContext>(optionsBuilder => optionsBuilder.UseMySql(connectionString, serverVersion));
 
 var app = builder.Build();
@@ -26,6 +31,10 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
