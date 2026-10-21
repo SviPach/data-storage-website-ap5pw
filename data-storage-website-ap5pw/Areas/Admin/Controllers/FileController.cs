@@ -20,5 +20,20 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
             IList<Domain.Entities.File> files = _fileAppService.SelectAll();
             return View(files);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult Create(Domain.Entities.File file)
+        {
+            _fileAppService.Create(file);
+
+            return RedirectToAction(nameof(FileController.Select));
+        }
     }
 }

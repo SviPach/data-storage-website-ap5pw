@@ -17,5 +17,10 @@ namespace data_storage_website_ap5pw.Application.Implementation
         {
             return _fileRepository.GetAll().ToList();
         }
+
+        public void Create(Domain.Entities.File file)
+        {
+            _fileRepository.Add(file);
+        }
     }
 }

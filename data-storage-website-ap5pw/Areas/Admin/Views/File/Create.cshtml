@@ -1,0 +1,27 @@
+﻿@model File
+
+@{
+    ViewData["Title"] = "File - Create";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label" asp-for="FileName"></label>
+        <input class="form-control" asp-for="FileName">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Size"></label>
+        <input class="form-control" asp-for="Size">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="StoragePath"></label>
+        <input class="form-control" asp-for="StoragePath">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="UserId"></label>
+        <input class="form-control" asp-for="UserId">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

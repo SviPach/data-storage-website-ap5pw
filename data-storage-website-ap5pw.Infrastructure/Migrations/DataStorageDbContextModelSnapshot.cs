@@ -21,7 +21,7 @@ namespace data_storage_website_ap5pw.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.FileEntity", b =>
+            modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.File", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,25 +29,23 @@ namespace data_storage_website_ap5pw.Infrastructure.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Path")
+                    b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<long>("Size")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("StoragePath")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FileEntity");
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.User", b =>
@@ -68,23 +66,7 @@ namespace data_storage_website_ap5pw.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.FileEntity", b =>
-                {
-                    b.HasOne("data_storage_website_ap5pw.Domain.Entities.User", "User")
-                        .WithMany("Files")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Files");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
