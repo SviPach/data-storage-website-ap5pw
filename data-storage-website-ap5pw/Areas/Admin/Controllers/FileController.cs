@@ -1,14 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using data_storage_website_ap5pw.Application.Abstraction;
+using data_storage_website_ap5pw.Domain.Entities;
 
 namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class FileController : Controller
     {
-        // GET: /<controller>/
+        IFileAppService _fileAppService;
+
+        public FileController(IFileAppService fileAppService)
+        {
+            _fileAppService = fileAppService;
+        }
+
+        // GET: /<controller>/Select
         public IActionResult Select()
         {
-            return View();
+            IList<Domain.Entities.File> files = _fileAppService.SelectAll();
+            return View(files);
         }
     }
 }

@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using data_storage_website_ap5pw.Application.Abstraction;
+using data_storage_website_ap5pw.Application.Implementation;
 using data_storage_website_ap5pw.Domain.Entities.Interfaces.Repository;
 using data_storage_website_ap5pw.Infrastructure.Database;
 using data_storage_website_ap5pw.Infrastructure.Repository;
@@ -19,7 +21,10 @@ builder.Services.AddDbContext<DataStorageDbContext>(optionsBuilder => optionsBui
 
 //repository registration
 builder.Services.AddScoped<IFileRepository, FileRepository>();
-                
+
+//registration of application services
+builder.Services.AddScoped<IFileAppService, FileAppService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
