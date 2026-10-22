@@ -38,7 +38,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                 return RedirectToAction(nameof(FileController.Select));
             }
 
-            return View(product);
+            return View(file);
         }
 
         [ValidateAntiForgeryToken]
