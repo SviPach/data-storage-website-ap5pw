@@ -22,5 +22,20 @@ namespace data_storage_website_ap5pw.Application.Implementation
         {
             _fileRepository.Add(file);
         }
+
+        public bool Delete(int id)
+        {
+            bool deleted = false;
+
+            Domain.Entities.File? file = _fileRepository.GetById(id);
+
+            if (file != null)
+            {
+                _fileRepository.Delete(file);
+                deleted = true;
+            }
+
+            return deleted;
+        }
     }
 }

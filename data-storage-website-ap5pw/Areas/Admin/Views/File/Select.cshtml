@@ -19,6 +19,7 @@
                     <th scope="col">@nameof(File.Size)</th>
                     <th scope="col">@nameof(File.StoragePath)</th>
                     <th scope="col">@nameof(File.UserId)</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +33,11 @@
                         <td>@file.Size</td>
                         <td>@file.StoragePath</td>
                         <td>@file.UserId</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@file.Id" method="post">
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 }
 

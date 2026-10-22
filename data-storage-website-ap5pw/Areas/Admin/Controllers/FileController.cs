@@ -35,5 +35,19 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(FileController.Select));
         }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            bool deleted = _fileAppService.Delete(id);
+
+            if (deleted)
+            {
+                return RedirectToAction(nameof(FileController.Select));
+            }
+            else
+                return NotFound();
+        }
     }
 }
