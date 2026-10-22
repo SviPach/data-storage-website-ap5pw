@@ -21,6 +21,47 @@ namespace data_storage_website_ap5pw.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.Carousel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageAlt")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImageSrc")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carousel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImageAlt = "First slide",
+                            ImageSrc = "/img/carousel/information-technology-specialist.jpg"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ImageAlt = "Second slide",
+                            ImageSrc = "/img/carousel/Information-Technology-1-1.jpg"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImageAlt = "Third slide",
+                            ImageSrc = "/img/carousel/itec-index-banner.jpg"
+                        });
+                });
+
             modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.File", b =>
                 {
                     b.Property<int>("Id")
@@ -46,6 +87,32 @@ namespace data_storage_website_ap5pw.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Files");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FileName = "test1",
+                            Size = 1L,
+                            StoragePath = "/test/1",
+                            UserId = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FileName = "test2",
+                            Size = 2L,
+                            StoragePath = "/test/2",
+                            UserId = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FileName = "test3",
+                            Size = 3L,
+                            StoragePath = "/test/3",
+                            UserId = 0
+                        });
                 });
 
             modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.User", b =>

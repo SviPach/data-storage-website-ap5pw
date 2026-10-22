@@ -10,7 +10,7 @@ namespace data_storage_website_ap5pw.Infrastructure.Repository
 {
     public class CarouselRepository : Repository<Carousel, int>, ICarouselRepository
     {
-        public CarouselRepository(EshopDbContext context) : base(context)
+        public CarouselRepository(DataStorageDbContext context) : base(context)
         {
         }
     }
