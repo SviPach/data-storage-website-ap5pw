@@ -31,9 +31,14 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Domain.Entities.File file)
         {
-            _fileAppService.Create(file);
+            if (ModelState.IsValid)
+            {
+                _fileAppService.Create(file);
 
-            return RedirectToAction(nameof(FileController.Select));
+                return RedirectToAction(nameof(FileController.Select));
+            }
+
+            return View(product);
         }
 
         [ValidateAntiForgeryToken]
