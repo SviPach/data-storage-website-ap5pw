@@ -21,9 +21,12 @@ builder.Services.AddDbContext<DataStorageDbContext>(optionsBuilder => optionsBui
 
 //repository registration
 builder.Services.AddScoped<IFileRepository, FileRepository>();
+builder.Services.AddScoped<ICarouselRepository, CarouselRepository>();
 
 //registration of application services
 builder.Services.AddScoped<IFileAppService, FileAppService>();
+builder.Services.AddScoped<ICarouselAppService, CarouselAppService>();
+builder.Services.AddScoped<IHomeService, HomeService>();
 
 var app = builder.Build();
 
