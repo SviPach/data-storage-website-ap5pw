@@ -34,7 +34,7 @@
                         <td>@file.StoragePath</td>
                         <td>@file.UserId</td>
                         <td>
-                            <form asp-action="Delete" asp-route-id="@file.Id" method="post">
+                            <form asp-action="Delete" asp-route-id="@file.Id" method="post" onclick="return confirmDelete();">
                                 <button type="submit" class="btn btn-primary">Delete</button>
                             </form>
                         </td>
@@ -48,4 +48,9 @@
     {
         <p>File table is empty!</p>
     }
+}
+
+@section Scripts
+{
+    <script src="~/js/dialogs.js"></script>
 }
