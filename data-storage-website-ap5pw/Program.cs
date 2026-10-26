@@ -1,9 +1,12 @@
-using Microsoft.EntityFrameworkCore;
 using data_storage_website_ap5pw.Application.Abstraction;
 using data_storage_website_ap5pw.Application.Implementation;
 using data_storage_website_ap5pw.Domain.Entities.Interfaces.Repository;
 using data_storage_website_ap5pw.Infrastructure.Database;
+using data_storage_website_ap5pw.Infrastructure.Identity;
 using data_storage_website_ap5pw.Infrastructure.Repository;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,11 @@ if (serverVersion == null)
     serverVersion = new MySqlServerVersion("8.0.43");
 }
 builder.Services.AddDbContext<DataStorageDbContext>(optionsBuilder => optionsBuilder.UseMySql(connectionString, serverVersion));
+
+//Configuration for Identity
+builder.Services.AddIdentity<User, Role>()
+     .AddEntityFrameworkStores<DataStorageDbContext>()
+     .AddDefaultTokenProviders();
 
 //repository registration
 builder.Services.AddScoped<IFileRepository, FileRepository>();
@@ -41,6 +49,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

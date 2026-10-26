@@ -1,11 +1,13 @@
 ﻿using data_storage_website_ap5pw.Domain.Entities;
 using data_storage_website_ap5pw.Infrastructure.Database.Seeding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using data_storage_website_ap5pw.Infrastructure.Identity;
 
 namespace data_storage_website_ap5pw.Infrastructure.Database
 {
-    public class DataStorageDbContext : DbContext
+    public class DataStorageDbContext : IdentityDbContext<User, Role, int>
     {
         public DbSet<User> Users { get; set; }
         public DbSet<data_storage_website_ap5pw.Domain.Entities.File> Files { get; set; }
