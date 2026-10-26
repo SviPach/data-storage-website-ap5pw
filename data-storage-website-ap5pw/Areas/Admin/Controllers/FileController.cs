@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using data_storage_website_ap5pw.Application.Abstraction;
 using data_storage_website_ap5pw.Domain.Entities;
+using data_storage_website_ap5pw.Domain.Enums;
 
 namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = nameof(Roles.Admin) + ", " + nameof(Roles.Manager))]
     public class FileController : Controller
     {
         IFileAppService _fileAppService;
