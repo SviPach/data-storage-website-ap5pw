@@ -201,22 +201,26 @@ namespace data_storage_website_ap5pw.Infrastructure.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Topic")
                         .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("varchar(70)");
 
-                    b.Property<long>("Size")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("StoragePath")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Files");
 
@@ -224,26 +228,26 @@ namespace data_storage_website_ap5pw.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            FileName = "test1",
-                            Size = 1L,
-                            StoragePath = "/test/1",
-                            UserId = 0
+                            AuthorId = 1,
+                            FileName = "file1",
+                            Text = "Some text about topic1.",
+                            Topic = "Topic1"
                         },
                         new
                         {
                             Id = 2,
-                            FileName = "test2",
-                            Size = 2L,
-                            StoragePath = "/test/2",
-                            UserId = 0
+                            AuthorId = 1,
+                            FileName = "file2",
+                            Text = "Some text about topic2.",
+                            Topic = "Topic2"
                         },
                         new
                         {
                             Id = 3,
-                            FileName = "test3",
-                            Size = 3L,
-                            StoragePath = "/test/3",
-                            UserId = 0
+                            AuthorId = 1,
+                            FileName = "file3",
+                            Text = "Some text about topic3.",
+                            Topic = "Topic3"
                         });
                 });
 
@@ -458,6 +462,15 @@ namespace data_storage_website_ap5pw.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("data_storage_website_ap5pw.Domain.Entities.File", b =>
+                {
+                    b.HasOne("data_storage_website_ap5pw.Infrastructure.Identity.User", null)
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

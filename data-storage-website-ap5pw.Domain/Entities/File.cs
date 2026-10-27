@@ -8,15 +8,20 @@ namespace data_storage_website_ap5pw.Domain.Entities
     public class File : Entity<int>
     {
         [Required]
-        [StringLength(70)]
-        [FirstLetterUppercase]
+        [StringLength(30)]
         public string FileName { get; set; } = string.Empty;
 
-        public long Size { get; set; }
+        [Required]
+        [StringLength(70)]
+        [FirstLetterUppercase]
+        public string Topic{ get; set;  } = string.Empty;
 
-        public string StoragePath { get; set; } = string.Empty;
-
-        public int UserId { get; set; }
+        [Required]
+        [Column(TypeName = "longtext")]
+        public string Text { get; set; }
+        
+        [Required]
+        public int AuthorId { get; set; }
     }
 }
 

@@ -11,23 +11,26 @@ namespace data_storage_website_ap5pw.Infrastructure.Database.Seeding
             files.Add(new Domain.Entities.File
             {
                 Id = 1,
-                FileName = "test1",
-                Size = 1,
-                StoragePath = "/test/1"
+                FileName = "file1",
+                Topic = "Topic1",
+                Text = "Some text about topic1.",
+                AuthorId = 1
             });
             files.Add(new Domain.Entities.File
             {
                 Id = 2,
-                FileName = "test2",
-                Size = 2,
-                StoragePath = "/test/2"
+                FileName = "file2",
+                Topic = "Topic2",
+                Text = "Some text about topic2.",
+                AuthorId = 1
             });
             files.Add(new Domain.Entities.File
             {
                 Id = 3,
-                FileName = "test3",
-                Size = 3,
-                StoragePath = "/test/3"
+                FileName = "file3",
+                Topic = "Topic3",
+                Text = "Some text about topic3.",
+                AuthorId = 1
             });
 
             return files;

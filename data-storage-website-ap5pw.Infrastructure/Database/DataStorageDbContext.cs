@@ -22,6 +22,13 @@ namespace data_storage_website_ap5pw.Infrastructure.Database
         {
             base.OnModelCreating(modelBuilder);
 
+            // File.AuthorId <-> User.Id foreign key
+            modelBuilder.Entity<Domain.Entities.File>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(f => f.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             FileInit fileInit = new FileInit();
             modelBuilder.Entity<Domain.Entities.File>().HasData(fileInit.GetFiles3());
             CarouselInit carouselInit = new CarouselInit();
