@@ -56,6 +56,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                UserName = user.UserName,
                 Email = user.Email
             };
 
@@ -81,6 +82,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.Email = model.Email;
+            user.UserName = model.UserName;
 
             var updateResult = await _userManager.UpdateAsync(user);
 
@@ -92,26 +94,6 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                 }
 
                 return View(model);
-            }
-
-            if (!string.IsNullOrWhiteSpace(model.NewPassword))
-            {
-                var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-                var passwordResult = await _userManager.ResetPasswordAsync(
-                    user,
-                    resetToken,
-                    model.NewPassword);
-
-                if (!passwordResult.Succeeded)
-                {
-                    foreach (var error in passwordResult.Errors)
-                    {
-                        ModelState.AddModelError(nameof(model.NewPassword), error.Description);
-                    }
-
-                    return View(model);
-                }
             }
 
             return RedirectToAction(nameof(Select));

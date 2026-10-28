@@ -14,12 +14,12 @@ namespace data_storage_website_ap5pw.Application.ViewModels
         [StringLength(100)]
         public string? LastName { get; set; }
 
+        [Required(ErrorMessage = "Username is required.")]
+        [StringLength(256)]
+        public string? UserName { get; set; }
+
         [Required]
         [EmailAddress]
         public string? Email { get; set; }
-
-        [DataType(DataType.Password)]
-        [MinLength(5)]
-        public string? NewPassword { get; set; }
     }
 }
