@@ -39,6 +39,11 @@ namespace data_storage_website_ap5pw.Application.Implementation
             _fileRepository.Add(file);
         }
 
+        public void Edit(Domain.Entities.File file)
+        {
+            _fileRepository.Edit(file);
+        }
+
         public bool Delete(int id)
         {
             Domain.Entities.File? file = _fileRepository.GetById(id);

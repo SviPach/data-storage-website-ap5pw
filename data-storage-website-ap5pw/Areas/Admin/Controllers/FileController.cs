@@ -54,6 +54,46 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
             return View(file);
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var file = _fileAppService.SelectAll()
+                .FirstOrDefault(f => f.Id == id);
+
+            if (file == null)
+            {
+                return NotFound();
+            }
+
+            return View(file);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Domain.Entities.File file)
+        {
+            var existingFile = _fileAppService.SelectAll()
+                .FirstOrDefault(f => f.Id == id);
+
+            if (existingFile == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                existingFile.FileName = file.FileName;
+                existingFile.Topic = file.Topic;
+                existingFile.Text = file.Text;
+
+                _fileAppService.Edit(existingFile);
+
+                return RedirectToAction(nameof(FileController.Select));
+            }
+
+            return View(file);
+        }
+
         [ValidateAntiForgeryToken]
         [HttpPost]
         public IActionResult Delete(int id)

@@ -11,6 +11,8 @@ namespace data_storage_website_ap5pw.Application.Abstraction
 
         void Create(Domain.Entities.File file);
 
+        void Edit(Domain.Entities.File file);
+
         bool Delete(int id);
     }
 }
