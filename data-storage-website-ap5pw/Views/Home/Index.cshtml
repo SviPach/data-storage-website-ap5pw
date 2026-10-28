@@ -66,13 +66,36 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- File actions-->
+
+                                <!-- File actions -->
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="#">View</a>
-                                        <a class="btn btn-outline-dark mt-auto" href="#">Download</a>
+                                        @if (User.Identity?.IsAuthenticated == true)
+                                        {
+                                            <a class="btn btn-outline-dark mt-auto"
+                                               asp-controller="File"
+                                               asp-action="View"
+                                               asp-route-id="@file.Id">
+                                                View
+                                            </a>
+
+                                            <a class="btn btn-outline-dark mt-auto"
+                                               asp-controller="File"
+                                               asp-action="Download"
+                                               asp-route-id="@file.Id">
+                                                Download
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-outline-secondary mt-auto"
+                                               href="/Security/Account/Login">
+                                                Log in to view or download
+                                            </a>
+                                        }
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     }

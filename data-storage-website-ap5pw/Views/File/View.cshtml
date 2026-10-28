@@ -1,0 +1,28 @@
+﻿@model data_storage_website_ap5pw.Domain.Entities.File
+
+@{
+    ViewData["Title"] = Model.FileName;
+}
+
+<div class="container mt-4">
+    <h1>@Model.FileName</h1>
+
+    <h4>@Model.Topic</h4>
+
+    <hr />
+
+    <p style="white-space: pre-wrap;">@Model.Text</p>
+
+    <a asp-controller="File"
+       asp-action="Download"
+       asp-route-id="@Model.Id"
+       class="btn btn-primary">
+        Download
+    </a>
+
+    <a asp-controller="Home"
+       asp-action="Index"
+       class="btn btn-secondary">
+        Back
+    </a>
+</div>
