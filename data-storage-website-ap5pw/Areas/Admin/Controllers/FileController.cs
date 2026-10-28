@@ -1,12 +1,12 @@
 ﻿using data_storage_website_ap5pw.Application.Abstraction;
 using data_storage_website_ap5pw.Domain.Entities;
 using data_storage_website_ap5pw.Domain.Enums;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using data_storage_website_ap5pw.Infrastructure.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 
 namespace data_storage_website_ap5pw.Areas.Admin.Controllers
@@ -16,14 +16,14 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
     public class FileController : Controller
     {
         private readonly IFileAppService _fileAppService;
-        private readonly UserManager<User> _userManager;
+        private readonly IAccountService _accountService;
 
         public FileController(
             IFileAppService fileAppService,
-            UserManager<User> userManager)
+            IAccountService accountService)
         {
             _fileAppService = fileAppService;
-            _userManager = userManager;
+            _accountService = accountService;
         }
 
         // GET: /<controller>/Select
@@ -35,9 +35,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 
         private async Task LoadAuthorsAsync(int? selectedAuthorId = null)
         {
-            var users = _userManager.Users
-                .OrderBy(u => u.UserName)
-                .ToList();
+            var users = await _accountService.GetAllUsers();
 
             ViewBag.Authors = new SelectList(
                 users,
@@ -53,6 +51,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Domain.Entities.File file)
         {
             // Get the ID of the currently logged-in user
@@ -114,8 +113,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                 // Только Admin может менять автора.
                 if (User.IsInRole(nameof(Roles.Admin)))
                 {
-                    var author = await _userManager.FindByIdAsync(
-                        file.AuthorId.ToString());
+                    var author = await _accountService.GetUserById(file.AuthorId);
 
                     if (author == null)
                     {

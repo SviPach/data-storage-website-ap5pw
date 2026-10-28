@@ -26,9 +26,12 @@ namespace data_storage_website_ap5pw.Infrastructure.Managers
         }
 
 
-        public async Task<string[]> Create(IUser<int> userIn, string password, params Roles[] roles)
+        public async Task<string[]> Create(
+    IUser<int> userIn,
+    string password,
+    params Roles[] roles)
         {
-            User user = new User()
+            var user = new User
             {
                 UserName = userIn.UserName,
                 FirstName = userIn.FirstName,
@@ -37,33 +40,26 @@ namespace data_storage_website_ap5pw.Infrastructure.Managers
                 PhoneNumber = userIn.PhoneNumber
             };
 
-            string[] errors = null;
+            var errors = new List<string>();
 
             var result = await userManager.CreateAsync(user, password);
-            if (result.Succeeded)
-            {
-                foreach (var role in roles)
-                {
-                    var resultRole = await userManager.AddToRoleAsync(user, role.ToString());
 
-                    if (resultRole.Succeeded == false)
-                    {
-                        for (int i = 0; i < result.Errors.Count(); ++i)
-                            result.Errors.Append(result.Errors.ElementAt(i));
-                    }
+            if (!result.Succeeded)
+                return result.Errors.Select(e => e.Description).ToArray();
+
+            foreach (var role in roles)
+            {
+                var roleResult = await userManager.AddToRoleAsync(
+                    user, role.ToString());
+
+                if (!roleResult.Succeeded)
+                {
+                    errors.AddRange(
+                        roleResult.Errors.Select(e => e.Description));
                 }
             }
 
-            if (result.Errors != null && result.Errors.Count() > 0)
-            {
-                errors = new string[result.Errors.Count()];
-                for (int i = 0; i < result.Errors.Count(); ++i)
-                {
-                    errors[i] = result.Errors.ElementAt(i).Description;
-                }
-            }
-
-            return errors;
+            return errors.ToArray();
         }
 
 
@@ -159,6 +155,101 @@ namespace data_storage_website_ap5pw.Infrastructure.Managers
                     "An error occurred while deleting the user. No changes were saved."
                 );
             }
+        }
+
+        public async Task<IList<IUser<int>>> GetAllUsers()
+        {
+            return await userManager.Users
+                .OrderBy(u => u.UserName)
+                .Cast<IUser<int>>()
+                .ToListAsync();
+        }
+
+        public async Task<IUser<int>?> GetUserById(int userId)
+        {
+            return await userManager.FindByIdAsync(userId.ToString());
+        }
+
+        public async Task<IList<string>> GetUserRoles(int userId)
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+
+            if (user == null)
+                return new List<string>();
+
+            var roles = await userManager.GetRolesAsync(user);
+            return roles.ToList();
+        }
+
+        public async Task<(bool Success, string Message)> UpdateUser(
+            int userId,
+            string? firstName,
+            string? lastName,
+            string? userName,
+            string? email,
+            string role)
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+
+            if (user == null)
+                return (false, "User not found.");
+
+            if (await userManager.IsInRoleAsync(user, nameof(Roles.Admin)))
+                return (false, "Administrator cannot be edited.");
+
+            if (role != nameof(Roles.Customer) &&
+                role != nameof(Roles.Manager))
+            {
+                return (false, "Invalid role selected.");
+            }
+
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            user.UserName = userName;
+            user.Email = email;
+
+            var updateResult = await userManager.UpdateAsync(user);
+
+            if (!updateResult.Succeeded)
+            {
+                return (
+                    false,
+                    string.Join(" ", updateResult.Errors.Select(e => e.Description))
+                );
+            }
+
+            var currentRoles = await userManager.GetRolesAsync(user);
+
+            var rolesToRemove = currentRoles
+                .Where(r => r == nameof(Roles.Customer) ||
+                            r == nameof(Roles.Manager))
+                .ToList();
+
+            if (rolesToRemove.Count > 0)
+            {
+                var removeResult = await userManager.RemoveFromRolesAsync(
+                    user, rolesToRemove);
+
+                if (!removeResult.Succeeded)
+                {
+                    return (
+                        false,
+                        string.Join(" ", removeResult.Errors.Select(e => e.Description))
+                    );
+                }
+            }
+
+            var addResult = await userManager.AddToRoleAsync(user, role);
+
+            if (!addResult.Succeeded)
+            {
+                return (
+                    false,
+                    string.Join(" ", addResult.Errors.Select(e => e.Description))
+                );
+            }
+
+            return (true, "User profile and role updated successfully.");
         }
     }
 }

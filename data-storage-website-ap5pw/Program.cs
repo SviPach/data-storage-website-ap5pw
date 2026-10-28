@@ -7,7 +7,6 @@ using data_storage_website_ap5pw.Infrastructure.Identity;
 using data_storage_website_ap5pw.Infrastructure.Repository;
 using Microsoft.AspNetCore.Identity;
 using data_storage_website_ap5pw.Infrastructure.Managers;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

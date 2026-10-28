@@ -34,7 +34,7 @@ namespace data_storage_website_ap5pw.Areas.Security.Controllers
             {
                 string[] errors = await _accountService.Register(registerVM, Roles.Customer);
 
-                if (errors == null)
+                if (errors.Length == 0)
                 {
                     //login the user after registration
                     LoginViewModel loginVM = new LoginViewModel()

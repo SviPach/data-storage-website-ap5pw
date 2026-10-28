@@ -19,5 +19,19 @@ namespace data_storage_website_ap5pw.Domain.Entities.Interfaces.Managers
             string newPassword);
 
         Task<(bool Success, string Message)> DeleteUser(int userId);
+
+        Task<IList<IUser<TKey>>> GetAllUsers();
+
+        Task<IUser<TKey>?> GetUserById(TKey userId);
+
+        Task<IList<string>> GetUserRoles(TKey userId);
+
+        Task<(bool Success, string Message)> UpdateUser(
+            TKey userId,
+            string? firstName,
+            string? lastName,
+            string? userName,
+            string? email,
+            string role);
     }
 }
