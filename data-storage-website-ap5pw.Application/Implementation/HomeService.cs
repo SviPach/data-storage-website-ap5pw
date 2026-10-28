@@ -1,6 +1,7 @@
 ﻿using data_storage_website_ap5pw.Application.Abstraction;
 using data_storage_website_ap5pw.Application.ViewModels;
 
+
 namespace data_storage_website_ap5pw.Application.Implementation
 {
     public class HomeService : IHomeService
@@ -18,7 +19,7 @@ namespace data_storage_website_ap5pw.Application.Implementation
         public IndexViewModel GetIndexViewModel()
         {
             IndexViewModel viewModel = new IndexViewModel();
-            viewModel.Files = _fileAppService.SelectAll();
+            viewModel.Files = _fileAppService.SelectAllCards();
             viewModel.Carousels = _carouselAppService.SelectAll();
             return viewModel;
         }

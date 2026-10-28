@@ -5,6 +5,7 @@ namespace data_storage_website_ap5pw.Application.ViewModels
     public class IndexViewModel
     {
         public IList<Carousel>? Carousels { get; set; }
-        public IList<Domain.Entities.File>? Files { get; set; }
+        public IList<FileCardViewModel> Files { get; set; }
+            = new List<FileCardViewModel>();
     }
 }

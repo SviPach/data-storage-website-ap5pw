@@ -1,12 +1,14 @@
-﻿using data_storage_website_ap5pw.Application.Abstraction;
-using data_storage_website_ap5pw.Domain.Entities;
+﻿
+using data_storage_website_ap5pw.Application.Abstraction;
+using data_storage_website_ap5pw.Application.ViewModels;
 using data_storage_website_ap5pw.Domain.Entities.Interfaces.Repository;
+using data_storage_website_ap5pw.Domain.Records;
 
 namespace data_storage_website_ap5pw.Application.Implementation
 {
     public class FileAppService : IFileAppService
     {
-        IFileRepository _fileRepository;
+        private readonly IFileRepository _fileRepository;
 
         public FileAppService(IFileRepository fileRepository)
         {
@@ -18,6 +20,20 @@ namespace data_storage_website_ap5pw.Application.Implementation
             return _fileRepository.GetAll().ToList();
         }
 
+        public IList<FileCardViewModel> SelectAllCards()
+        {
+            return _fileRepository.SelectAllCards()
+                .Select(record => new FileCardViewModel
+                {
+                    Id = record.Id,
+                    FileName = record.FileName,
+                    Topic = record.Topic,
+                    AuthorFirstName = record.AuthorFirstName,
+                    AuthorLastName = record.AuthorLastName
+                })
+                .ToList();
+        }
+
         public void Create(Domain.Entities.File file)
         {
             _fileRepository.Add(file);
@@ -25,17 +41,15 @@ namespace data_storage_website_ap5pw.Application.Implementation
 
         public bool Delete(int id)
         {
-            bool deleted = false;
-
             Domain.Entities.File? file = _fileRepository.GetById(id);
 
-            if (file != null)
+            if (file == null)
             {
-                _fileRepository.Delete(file);
-                deleted = true;
+                return false;
             }
 
-            return deleted;
+            _fileRepository.Delete(file);
+            return true;
         }
     }
 }
