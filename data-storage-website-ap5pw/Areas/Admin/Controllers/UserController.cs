@@ -1,12 +1,11 @@
-﻿using data_storage_website_ap5pw.Application.ViewModels;
+﻿using data_storage_website_ap5pw.Application.Abstraction;
+using data_storage_website_ap5pw.Application.ViewModels;
 using data_storage_website_ap5pw.Domain.Enums;
 using data_storage_website_ap5pw.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using data_storage_website_ap5pw.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 {
@@ -15,14 +14,14 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly DataStorageDbContext _context;
+        private readonly IAccountService _accountService;
 
         public UsersController(
             UserManager<User> userManager,
-            DataStorageDbContext context)
+            IAccountService accountService)
         {
             _userManager = userManager;
-            _context = context;
+            _accountService = accountService;
         }
 
         private static readonly string[] AssignableRoles =
@@ -178,77 +177,11 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var result = await _accountService.DeleteUser(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            TempData[result.Success ? "Success" : "Error"] = result.Message;
 
-            // Cannot delete admin
-            if (await _userManager.IsInRoleAsync(user, nameof(Roles.Admin)))
-            {
-                TempData["Error"] = "Administrator cannot be deleted.";
-                return RedirectToAction(nameof(Select));
-            }
-
-            // Finding admin for re-linking
-            var admin = (await _userManager.GetUsersInRoleAsync(nameof(Roles.Admin))).FirstOrDefault();
-
-            if (admin == null)
-            {
-                TempData["Error"] = "No administrator exists.";
-                return RedirectToAction(nameof(Select));
-            }
-
-            // Transaction
-            await using var transaction =
-                await _context.Database.BeginTransactionAsync();
-
-            try
-            {
-                // Re-linking files to admin
-                var files = await _context.Files
-                    .Where(f => f.AuthorId == user.Id)
-                    .ToListAsync();
-
-                foreach (var file in files)
-                {
-                    file.AuthorId = admin.Id;
-                }
-
-                await _context.SaveChangesAsync();
-
-                // Deleting user after file re-linking
-                var result = await _userManager.DeleteAsync(user);
-
-                if (!result.Succeeded)
-                {
-                    await transaction.RollbackAsync();
-
-                    TempData["Error"] = string.Join(
-                        " ",
-                        result.Errors.Select(error => error.Description));
-
-                    return RedirectToAction(nameof(Select));
-                }
-
-                await transaction.CommitAsync();
-
-                TempData["Success"] =
-                    $"User deleted successfully. {files.Count} file(s) reassigned to administrator {admin.UserName}.";
-
-                return RedirectToAction(nameof(Select));
-            }
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
-
-                TempData["Error"] =
-                    "An error occurred while deleting the user. No changes were saved.";
-
-                return RedirectToAction(nameof(Select));
-            }
+            return RedirectToAction(nameof(Select));
         }
     }
 }

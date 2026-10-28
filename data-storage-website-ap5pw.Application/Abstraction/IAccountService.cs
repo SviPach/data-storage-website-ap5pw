@@ -17,5 +17,7 @@ namespace data_storage_website_ap5pw.Application.Abstraction
             string username,
             string currentPassword,
             string newPassword);
+
+        Task<(bool Success, string Message)> DeleteUser(int userId);
     }
 }

@@ -3,9 +3,9 @@ using data_storage_website_ap5pw.Domain.Entities.Interfaces.Managers;
 using data_storage_website_ap5pw.Domain.Enums;
 using data_storage_website_ap5pw.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using data_storage_website_ap5pw.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace data_storage_website_ap5pw.Infrastructure.Managers
 {
@@ -13,11 +13,16 @@ namespace data_storage_website_ap5pw.Infrastructure.Managers
     {
         UserManager<User> userManager;
         SignInManager<User> sigInManager;
+        private readonly DataStorageDbContext _context;
 
-        public AccountIdentityManager(UserManager<User> userManager, SignInManager<User> sigInManager)
+        public AccountIdentityManager(
+            UserManager<User> userManager,
+            SignInManager<User> sigInManager,
+            DataStorageDbContext context)
         {
             this.userManager = userManager;
             this.sigInManager = sigInManager;
+            _context = context;
         }
 
 
@@ -94,6 +99,66 @@ namespace data_storage_website_ap5pw.Infrastructure.Managers
             return result.Errors
                 .Select(error => error.Description)
                 .ToArray();
+        }
+
+        public async Task<(bool Success, string Message)> DeleteUser(int userId)
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+
+            if (user == null)
+                return (false, "User not found.");
+
+            if (await userManager.IsInRoleAsync(user, nameof(Roles.Admin)))
+                return (false, "Administrator cannot be deleted.");
+
+            var admin = (await userManager.GetUsersInRoleAsync(nameof(Roles.Admin)))
+                .FirstOrDefault();
+
+            if (admin == null)
+                return (false, "No administrator exists.");
+
+            await using var transaction =
+                await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var files = await _context.Files
+                    .Where(f => f.AuthorId == user.Id)
+                    .ToListAsync();
+
+                foreach (var file in files)
+                    file.AuthorId = admin.Id;
+
+                await _context.SaveChangesAsync();
+
+                var result = await userManager.DeleteAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+
+                    return (
+                        false,
+                        string.Join(" ", result.Errors.Select(e => e.Description))
+                    );
+                }
+
+                await transaction.CommitAsync();
+
+                return (
+                    true,
+                    $"User deleted successfully. {files.Count} file(s) reassigned to administrator {admin.UserName}."
+                );
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+
+                return (
+                    false,
+                    "An error occurred while deleting the user. No changes were saved."
+                );
+            }
         }
     }
 }

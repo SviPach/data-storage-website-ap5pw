@@ -56,5 +56,13 @@ namespace data_storage_website_ap5pw.Application.Implementation
                 currentPassword,
                 newPassword);
         }
+
+        public async Task<(bool Success, string Message)> DeleteUser(int userId)
+        {
+            if (typeof(TKey) != typeof(int))
+                return (false, "Unsupported user ID type.");
+
+            return await _accountManager.DeleteUser((int)(object)userId);
+        }
     }
 }
