@@ -31,6 +31,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                 model.Add(new UserViewModel
                 {
                     Id = user.Id,
+                    UserName = user.UserName,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
