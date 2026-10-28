@@ -72,5 +72,28 @@ namespace data_storage_website_ap5pw.Infrastructure.Managers
         {
             return sigInManager.SignOutAsync();
         }
+
+        public async Task<string[]> ChangePassword(
+            string username,
+            string currentPassword,
+            string newPassword)
+        {
+            var user = await userManager.FindByNameAsync(username);
+
+            if (user == null)
+                return new[] { "User was not found." };
+
+            var result = await userManager.ChangePasswordAsync(
+                user,
+                currentPassword,
+                newPassword);
+
+            if (result.Succeeded)
+                return Array.Empty<string>();
+
+            return result.Errors
+                .Select(error => error.Description)
+                .ToArray();
+        }
     }
 }

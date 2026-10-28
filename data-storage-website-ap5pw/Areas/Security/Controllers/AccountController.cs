@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 using data_storage_website_ap5pw.Application.Abstraction;
 using data_storage_website_ap5pw.Application.ViewModels;
 using data_storage_website_ap5pw.Domain.Enums;
@@ -90,6 +91,46 @@ namespace data_storage_website_ap5pw.Areas.Security.Controllers
         {
             await _accountService.Logout();
             return RedirectToAction(nameof(Login));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(
+            ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var username = User.Identity?.Name;
+
+            if (string.IsNullOrEmpty(username))
+                return Challenge();
+
+            var errors = await _accountService.ChangePassword(
+                username,
+                model.CurrentPassword,
+                model.NewPassword);
+
+            if (errors.Length > 0)
+            {
+                foreach (var error in errors)
+                    ModelState.AddModelError(string.Empty, error);
+
+                return View(model);
+            }
+
+            TempData["PasswordChangeSuccess"] =
+                "Your password has been changed successfully.";
+
+            return RedirectToAction(nameof(ChangePassword));
         }
     }
 }

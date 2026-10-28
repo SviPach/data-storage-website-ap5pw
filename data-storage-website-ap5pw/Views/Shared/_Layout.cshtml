@@ -93,7 +93,25 @@
                                         }
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item text-dark" asp-area="Security" asp-controller="Account" asp-action="Logout"><i class="bi bi-box-arrow-right me-1"></i> Logout</a></li>
+                                        <li>
+                                            <a class="dropdown-item text-dark"
+                                               asp-area="Security"
+                                               asp-controller="Account"
+                                               asp-action="ChangePassword">
+                                                <i class="bi bi-key me-1"></i> Change password
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider" />
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-dark"
+                                               asp-area="Security"
+                                               asp-controller="Account"
+                                               asp-action="Logout">
+                                                <i class="bi bi-box-arrow-right me-1"></i> Logout
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -111,7 +129,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - Data Storage Website - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 202 - Data Storage Website - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

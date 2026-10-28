@@ -12,5 +12,10 @@ namespace data_storage_website_ap5pw.Application.Abstraction
 
         Task<bool> Login(LoginViewModel vm);
         Task Logout();
+
+        Task<string[]> ChangePassword(
+            string username,
+            string currentPassword,
+            string newPassword);
     }
 }

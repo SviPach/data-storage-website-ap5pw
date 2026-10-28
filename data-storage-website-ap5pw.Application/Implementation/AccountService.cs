@@ -45,5 +45,16 @@ namespace data_storage_website_ap5pw.Application.Implementation
         {
             return _accountManager.Logout();
         }
+
+        public async Task<string[]> ChangePassword(
+            string username,
+            string currentPassword,
+            string newPassword)
+        {
+            return await _accountManager.ChangePassword(
+                username,
+                currentPassword,
+                newPassword);
+        }
     }
 }

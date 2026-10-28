@@ -12,5 +12,10 @@ namespace data_storage_website_ap5pw.Domain.Entities.Interfaces.Managers
 
         Task<bool> Login(string username, string password);
         Task Logout();
+
+        Task<string[]> ChangePassword(
+            string username,
+            string currentPassword,
+            string newPassword);
     }
 }
