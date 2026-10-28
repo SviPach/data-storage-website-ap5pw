@@ -4,6 +4,9 @@ using data_storage_website_ap5pw.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using data_storage_website_ap5pw.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace data_storage_website_ap5pw.Areas.Admin.Controllers
@@ -12,11 +15,15 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
     [Authorize(Roles = nameof(Roles.Admin) + ", " + nameof(Roles.Manager))]
     public class FileController : Controller
     {
-        IFileAppService _fileAppService;
+        private readonly IFileAppService _fileAppService;
+        private readonly UserManager<User> _userManager;
 
-        public FileController(IFileAppService fileAppService)
+        public FileController(
+            IFileAppService fileAppService,
+            UserManager<User> userManager)
         {
             _fileAppService = fileAppService;
+            _userManager = userManager;
         }
 
         // GET: /<controller>/Select
@@ -24,6 +31,19 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
         {
             IList<Domain.Entities.File> files = _fileAppService.SelectAll();
             return View(files);
+        }
+
+        private async Task LoadAuthorsAsync(int? selectedAuthorId = null)
+        {
+            var users = _userManager.Users
+                .OrderBy(u => u.UserName)
+                .ToList();
+
+            ViewBag.Authors = new SelectList(
+                users,
+                "Id",
+                "UserName",
+                selectedAuthorId);
         }
 
         [HttpGet]
@@ -55,7 +75,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var file = _fileAppService.SelectAll()
                 .FirstOrDefault(f => f.Id == id);
@@ -65,12 +85,17 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            if (User.IsInRole(nameof(Roles.Admin)))
+            {
+                await LoadAuthorsAsync(file.AuthorId);
+            }
+
             return View(file);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Domain.Entities.File file)
+        public async Task<IActionResult> Edit(int id, Domain.Entities.File file)
         {
             var existingFile = _fileAppService.SelectAll()
                 .FirstOrDefault(f => f.Id == id);
@@ -86,9 +111,33 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                 existingFile.Topic = file.Topic;
                 existingFile.Text = file.Text;
 
+                // Только Admin может менять автора.
+                if (User.IsInRole(nameof(Roles.Admin)))
+                {
+                    var author = await _userManager.FindByIdAsync(
+                        file.AuthorId.ToString());
+
+                    if (author == null)
+                    {
+                        ModelState.AddModelError(
+                            nameof(file.AuthorId),
+                            "Selected author does not exist.");
+
+                        await LoadAuthorsAsync(existingFile.AuthorId);
+                        return View(file);
+                    }
+
+                    existingFile.AuthorId = author.Id;
+                }
+
                 _fileAppService.Edit(existingFile);
 
                 return RedirectToAction(nameof(FileController.Select));
+            }
+
+            if (User.IsInRole(nameof(Roles.Admin)))
+            {
+                await LoadAuthorsAsync(file.AuthorId);
             }
 
             return View(file);
