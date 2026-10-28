@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using data_storage_website_ap5pw.Application.Abstraction;
+﻿using data_storage_website_ap5pw.Application.Abstraction;
 using data_storage_website_ap5pw.Domain.Entities;
 using data_storage_website_ap5pw.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
 
 namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 {
@@ -30,10 +32,18 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
             return View();
         }
 
-        [ValidateAntiForgeryToken]
         [HttpPost]
         public IActionResult Create(Domain.Entities.File file)
         {
+            // Get the ID of the currently logged-in user
+            var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdValue, out var userId))
+                return Challenge();
+
+            // Assign the author on the server
+            file.AuthorId = userId;
+
             if (ModelState.IsValid)
             {
                 _fileAppService.Create(file);
