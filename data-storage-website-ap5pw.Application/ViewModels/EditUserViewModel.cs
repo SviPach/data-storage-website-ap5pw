@@ -21,5 +21,7 @@ namespace data_storage_website_ap5pw.Application.ViewModels
         [Required]
         [EmailAddress]
         public string? Email { get; set; }
+
+        public string Role { get; set; } = "Customer";
     }
 }

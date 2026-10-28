@@ -25,6 +25,12 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
             _context = context;
         }
 
+        private static readonly string[] AssignableRoles =
+            {
+                nameof(Roles.Customer),
+                nameof(Roles.Manager)
+            };
+
         [HttpGet]
         public async Task<IActionResult> Select()
         {
@@ -59,14 +65,27 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            // Запрещаем редактировать самого администратора
+            if (await _userManager.IsInRoleAsync(user, nameof(Roles.Admin)))
+            {
+                TempData["Error"] = "Administrator cannot be edited.";
+                return RedirectToAction(nameof(Select));
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
             var model = new EditUserViewModel
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserName = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                Role = roles.FirstOrDefault(r => AssignableRoles.Contains(r))
+                       ?? nameof(Roles.Customer)
             };
+
+            ViewBag.AssignableRoles = AssignableRoles;
 
             return View(model);
         }
@@ -75,16 +94,32 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
 
             if (user == null)
             {
                 return NotFound();
+            }
+
+            // Admin cannot be changed
+            if (await _userManager.IsInRoleAsync(user, nameof(Roles.Admin)))
+            {
+                TempData["Error"] = "Administrator cannot be edited.";
+                return RedirectToAction(nameof(Select));
+            }
+
+            // Checking role on the server
+            if (!AssignableRoles.Contains(model.Role))
+            {
+                ModelState.AddModelError(
+                    nameof(model.Role),
+                    "Invalid role selected.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.AssignableRoles = AssignableRoles;
+                return View(model);
             }
 
             user.FirstName = model.FirstName;
@@ -101,8 +136,40 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
 
+                ViewBag.AssignableRoles = AssignableRoles;
                 return View(model);
             }
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            var rolesToRemove = currentRoles
+                .Where(r => AssignableRoles.Contains(r))
+                .ToList();
+
+            if (rolesToRemove.Count > 0)
+            {
+                var removeResult = await _userManager.RemoveFromRolesAsync(
+                    user, rolesToRemove);
+
+                if (!removeResult.Succeeded)
+                {
+                    TempData["Error"] = "Could not update user roles.";
+                    return RedirectToAction(nameof(Select));
+                }
+            }
+
+            var addResult = await _userManager.AddToRoleAsync(user, model.Role);
+
+            if (!addResult.Succeeded)
+            {
+                TempData["Error"] = string.Join(
+                    " ",
+                    addResult.Errors.Select(e => e.Description));
+
+                return RedirectToAction(nameof(Select));
+            }
+
+            TempData["Success"] = "User profile and role updated successfully.";
 
             return RedirectToAction(nameof(Select));
         }
