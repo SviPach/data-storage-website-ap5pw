@@ -18,7 +18,7 @@ namespace data_storage_website_ap5pw.Domain.Entities
 
         [Required]
         [Column(TypeName = "longtext")]
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
         
         [Required]
         public int AuthorId { get; set; }
