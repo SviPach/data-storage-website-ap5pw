@@ -40,5 +40,82 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new EditUserViewModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.UserName = model.Email;
+
+            var updateResult = await _userManager.UpdateAsync(user);
+
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return View(model);
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.NewPassword))
+            {
+                var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                var passwordResult = await _userManager.ResetPasswordAsync(
+                    user,
+                    resetToken,
+                    model.NewPassword);
+
+                if (!passwordResult.Succeeded)
+                {
+                    foreach (var error in passwordResult.Errors)
+                    {
+                        ModelState.AddModelError(nameof(model.NewPassword), error.Description);
+                    }
+
+                    return View(model);
+                }
+            }
+
+            return RedirectToAction(nameof(Select));
+        }
     }
 }
