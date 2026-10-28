@@ -28,10 +28,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated == true && (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.Manager))))
+                        @if (User.Identity?.IsAuthenticated == true &&
+                            (User.IsInRole(nameof(Roles.Admin)) ||
+                             User.IsInRole(nameof(Roles.Manager))))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="File" asp-action="Select">Files</a>
+                                <a class="nav-link text-dark"
+                                   asp-area="Admin"
+                                   asp-controller="File"
+                                   asp-action="Select">Files</a>
+                            </li>
+                        }
+
+                        @if (User.Identity?.IsAuthenticated == true &&
+                            User.IsInRole(nameof(Roles.Admin)))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area="Admin"
+                                   asp-controller="Users"
+                                   asp-action="Select">Users</a>
                             </li>
                         }
                     </ul>
