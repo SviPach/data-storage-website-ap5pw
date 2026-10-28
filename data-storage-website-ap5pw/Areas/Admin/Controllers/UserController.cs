@@ -81,7 +81,6 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.Email = model.Email;
-            user.UserName = model.Email;
 
             var updateResult = await _userManager.UpdateAsync(user);
 
