@@ -65,7 +65,7 @@
                         }
                         else
                         {
-                            <ul class="nav navbar-nav navbar-right">
+                            <ul class="nav navbar-nav ms-auto">
                                 <li class="nav-item dropdown">
                                     @{
                                         var currentUser = await UserManager.GetUserAsync(User);
@@ -76,12 +76,13 @@
                                         var fullName = $"{firstName} {lastName}".Trim();
                                     }
 
-                                    <a class="nav-link dropdown-toggle"
-                                       id="navbarDropdown"
-                                       href="#"
-                                       role="button"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle text-truncate"
+                                        id="navbarDropdown"
+                                        href="#"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        style="max-width: 220px;">
                                         <i class="bi bi-person"></i>
                                         @if (!string.IsNullOrWhiteSpace(fullName))
                                         {
@@ -92,7 +93,7 @@
                                             @login
                                         }
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <li>
                                             <a class="dropdown-item text-dark"
                                                asp-area="Security"
