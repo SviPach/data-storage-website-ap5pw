@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using data_storage_website_ap5pw.Domain.Validations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using data_storage_website_ap5pw.Domain.Validations;
 
 namespace data_storage_website_ap5pw.Domain.Entities
 {
@@ -8,6 +8,7 @@ namespace data_storage_website_ap5pw.Domain.Entities
     {
         [Required]
         [StringLength(30)]
+        [ValidFileName]
         public string FileName { get; set; } = string.Empty;
 
         [Required]
