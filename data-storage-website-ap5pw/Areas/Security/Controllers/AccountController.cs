@@ -50,7 +50,10 @@ namespace data_storage_website_ap5pw.Areas.Security.Controllers
                 }
                 else
                 {
-                    //log errors (if you add logging)
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error);
+                    }
                 }
 
             }

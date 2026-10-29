@@ -12,8 +12,8 @@ using data_storage_website_ap5pw.Infrastructure.Database;
 namespace data_storage_website_ap5pw.Infrastructure.Migrations
 {
     [DbContext(typeof(DataStorageDbContext))]
-    [Migration("20261027210448_1.0.7_file_properties")]
-    partial class _107_file_properties
+    [Migration("20261029161620_1.0.7_file_changed")]
+    partial class _107_file_changed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
