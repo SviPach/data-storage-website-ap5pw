@@ -19,8 +19,7 @@
                     <th scope="col">@nameof(File.Topic)</th>
                     <th scope="col">@nameof(File.Text)</th>
                     <th scope="col">@nameof(File.AuthorId)</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,16 +34,23 @@
                         <td>@file.Text</td>
                         <td>@file.AuthorId</td>
                         <td>
-                            <a asp-action="Edit"
-                               asp-route-id="@file.Id"
-                               class="btn btn-secondary">
-                                Edit
-                            </a>
-                        </td>
-                        <td>
-                            <form asp-action="Delete" asp-route-id="@file.Id" method="post" onclick="return confirmDelete();">
-                                <button type="submit" class="btn btn-primary">Delete</button>
-                            </form>
+                            <div class="d-flex gap-2">
+                                <a asp-action="Edit"
+                                   asp-route-id="@file.Id"
+                                   class="btn btn-secondary">
+                                    Edit
+                                </a>
+
+                                <form asp-action="Delete"
+                                      asp-route-id="@file.Id"
+                                      method="post"
+                                      onsubmit="return confirmDelete();"
+                                      class="d-inline">
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 }
