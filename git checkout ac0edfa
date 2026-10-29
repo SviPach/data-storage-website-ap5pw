@@ -1,0 +1,65 @@
+[33md5ae68e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m chore: imports cleanup
+[33mac0edfa[m chore: rename /Domain/Record/->/Domain/Records/
+[33m57d4662[m refactor: global code refactoring
+[33m6fc9db3[m refactor: make user deletion through UserAppService instead of directly connecting to database
+[33m5a0bac0[m feat(Admin): add a possibility to change roles for users
+[33md080e68[m feat(Admin): add a possibility to change file's author
+[33m2dccbe3[m feat(Admin): implement a user deletion
+[33m911b14e[m feat(User.Select): show user's username
+[33m2837c07[m feat(Admin): remove the possibility to change users' passwords
+[33m10417c5[m feat(Registration): make first and last name required style(Registration): add some error messages if somethings is missing
+[33m8b4fa7d[m style: fix dropdown-menu visibility
+[33m2f6e6f9[m feat: add any user a posibility to change their password
+[33md2f0265[m fix(UserController): fix invalid pasword reset
+[33mf140c6b[m style(_Layout): show authorized user's first and last names
+[33m5486395[m feat: implement user editing for admin
+[33m40dd8e1[m feat: add Users list shown only for Admin
+[33mf6ad4d8[m feat: add file editing possibility for admin and manager
+[33m55cb72d[m feat: make View and Download buttons available only for authorized users
+[33mc2d5d65[m feat: implement FileCardViewModel feat(Index): show product author's first and last names
+[33me7f4137[m style(Index): make View and Download buttons on the left and right sides accordingly
+[33m8bb4043[m feat(Create): implement automatic AuthorId assignment when creating the file
+[33mcc02e8d[m chore(File): add empty string to Text by default
+[33m99968ab[m feat: change properties for File entity
+[33meae2383[m feat: make only admin and manager be able to manage files
+[33mc5a49ba[m feat: implement functionality logic for login and registration
+[33md08d31d[m quick fix
+[33me572dca[m feat: implement login and register forms
+[33m5fd28a6[m feat: implement Login and Register ViewModels
+[33m562a304[m feat: implement roles (Admin, Manager, User)
+[33mbb61954[m feat(infrastructure): implement IdentityDbContext
+[33mb4ef8f1[m feat(Infrastructure): add entities Role and User
+[33mae5a7bd[m feat(Infrastructure): Install Microsoft.AspNetCore.Identity.EntityFrameworkCore
+[33m8b30eb1[m feat: implement first uppercase letter check
+[33me0d27ec[m feat: implement server and client validation
+[33mb3c765c[m global database fix
+[33m52f2f9f[m feat: integrate file and carousel template on the homepage
+[33mae39485[m feat: add services for file template and carousel integration
+[33ma0ce698[m add some test pictures to /img/wwwroot
+[33m3039156[m feat: implement file deletion's confirmation window
+[33mf63c3f2[m feat: implement file removal
+[33m92b1918[m feat: implement file creation functionality
+[33mec5dc57[m feat: add automatic View generation according to model's data
+[33m133d31e[m feat: implement application service IFileAppService
+[33m41e3eed[m Global fix
+[33mbe6b373[m feat: implement repository for File
+[33mf4863a1[m chore: rename File.cshtml->Select.cshtml
+[33m77d0c6c[m feat: implement Admin Area and routing
+[33md980789[m feat: rename FileEntity.cs->File.cs
+[33m41de8f9[m reorganize all files and fix namespace-related issues
+[33m9cfae5e[m feat: use Entity for FileEntity and User
+[33m82f6d45[m feat: create IEntity interface for Entity in Domain/Entities/Interfaces/
+[33m90933df[m feat: add Entity to create entities easier in the future
+[33m5371fa8[m feat(appsettings.json): change user credentials for connecting to database feat: make initial migration
+[33mcf4044d[m feat(Program.cs): add EntityFrameworkCore and DataStorageDbContext configuration using connection string feat(appsettings.json): add connection string for possibility to connect to MySQL database using applications
+[33m566faca[m refactor: specify entities' tables' names
+[33m278ab78[m refactor: rename File.cs->FileEntity.cs and File-FileEntity class accordingly feat(Infrastructure): add logic to DataStorageDbContext.cs
+[33m215f6a1[m feat: add Database folder to Interface class library feat(Infrastructure): add DataStorageDbContext.cs file to Database
+[33m2dbc84b[m refactor(User.cs): impove class visually and logically refactor(File.cs): impove class visually and logically
+[33m3a69969[m feat(Presentation): add User entity feat(Presentation): add File entity
+[33mb472850[m feat(Infrastructure): install Microsoft.EntityFrameworkCore NuGet package feat(Infrastructure): install Microting.EntityFrameworkCore.MySql NuGet package feat(Infrastructure): install Microsoft.EntityFrameworkCore.Tools NuGet package feat(Presentation): install Microsoft.EntityFrameworkCore.Design NuGet package
+[33m29aaa10[m feat: add folder Entities to Domain class library
+[33mcc1fb7e[m feat: add dependency Project-Application feat: add dependency Project-Domain feat: add dependency Project-Infrastructure feat: add dependency Application-Domain feat: add dependency Infrastructure-Domain
+[33mf1a6739[m feat: add data-storage-website-ap5pw.Application class library feat: add data-storage-website-ap5pw.Domain class library feat: add data-storage-website-ap5pw.Infrastructure class library
+[33m3ef0bec[m Init_commit
+[33mcc04bc0[m Add .gitattributes, .gitignore, and LICENSE.txt.

@@ -8,11 +8,11 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = nameof(Roles.Admin))]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly IAccountService _accountService;
 
-        public UserController(IAccountService accountService)
+        public UsersController(IAccountService accountService)
         {
             _accountService = accountService;
         }
@@ -27,7 +27,7 @@ namespace data_storage_website_ap5pw.Areas.Admin.Controllers
         public async Task<IActionResult> Select()
         {
             var model = await _accountService.GetUsersWithRoles();
-            return View(model);
+            return View("~/Areas/Admin/Views/Users/Select.cshtml", model);
         }
 
         [HttpGet]
