@@ -3,7 +3,6 @@ using data_storage_website_ap5pw.Infrastructure.Database.Seeding;
 using data_storage_website_ap5pw.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 
 

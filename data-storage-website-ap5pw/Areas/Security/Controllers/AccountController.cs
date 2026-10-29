@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq;
 using data_storage_website_ap5pw.Application.Abstraction;
 using data_storage_website_ap5pw.Application.ViewModels;
 using data_storage_website_ap5pw.Domain.Enums;

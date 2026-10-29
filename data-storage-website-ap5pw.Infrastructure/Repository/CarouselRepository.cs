@@ -1,8 +1,5 @@
 ﻿using data_storage_website_ap5pw.Domain.Entities.Interfaces.Repository;
 using data_storage_website_ap5pw.Domain.Infrastructure.Repository;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using data_storage_website_ap5pw.Domain.Entities;
 using data_storage_website_ap5pw.Infrastructure.Database;
 

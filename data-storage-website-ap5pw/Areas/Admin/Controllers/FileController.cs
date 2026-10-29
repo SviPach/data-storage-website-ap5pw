@@ -1,9 +1,6 @@
 ﻿using data_storage_website_ap5pw.Application.Abstraction;
-using data_storage_website_ap5pw.Domain.Entities;
 using data_storage_website_ap5pw.Domain.Enums;
-using data_storage_website_ap5pw.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;

@@ -1,6 +1,4 @@
-﻿using data_storage_website_ap5pw.Domain.Entities;
-
-namespace data_storage_website_ap5pw.Infrastructure.Database.Seeding
+﻿namespace data_storage_website_ap5pw.Infrastructure.Database.Seeding
 {
     internal class FileInit
     {

@@ -1,8 +1,4 @@
-﻿using data_storage_website_ap5pw.Domain.Entities.Interfaces;
-using data_storage_website_ap5pw.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using data_storage_website_ap5pw.Domain.Enums;
 
 namespace data_storage_website_ap5pw.Domain.Entities.Interfaces.Managers
 {

@@ -1,5 +1,4 @@
-﻿using data_storage_website_ap5pw.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using data_storage_website_ap5pw.Domain.Validations;
 

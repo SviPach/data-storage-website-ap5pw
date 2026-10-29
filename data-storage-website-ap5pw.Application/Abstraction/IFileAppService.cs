@@ -1,5 +1,4 @@
 ﻿using data_storage_website_ap5pw.Application.ViewModels;
-using data_storage_website_ap5pw.Domain.Entities;
 
 namespace data_storage_website_ap5pw.Application.Abstraction
 {

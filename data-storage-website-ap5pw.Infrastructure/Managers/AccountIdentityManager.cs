@@ -5,7 +5,6 @@ using data_storage_website_ap5pw.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using data_storage_website_ap5pw.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace data_storage_website_ap5pw.Infrastructure.Managers
 {

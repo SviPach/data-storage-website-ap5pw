@@ -4,7 +4,6 @@ using data_storage_website_ap5pw.Application.ViewModels;
 using data_storage_website_ap5pw.Domain.Entities.Interfaces;
 using data_storage_website_ap5pw.Domain.Entities.Interfaces.Managers;
 using data_storage_website_ap5pw.Domain.Enums;
-using System.Linq;
 
 namespace data_storage_website_ap5pw.Application.Implementation
 {
